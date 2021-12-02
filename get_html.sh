@@ -9,7 +9,12 @@
 # $2: output directory. If it doesn't exist the script will make one.         #
 #=============================================================================#
 
+if [[ $# -ne 2 ]]; then
+  echo "Usage: "$0" <input> <output>"
+  exit
+fi
+
 echo "Moving .html from "$1" to "$2" ..."
 hdfs dfs -mkdir -p $2
-hdfs dfs -cp $1/*.html
+hdfs dfs -cp $1/*.html $2
 echo "Done!"
