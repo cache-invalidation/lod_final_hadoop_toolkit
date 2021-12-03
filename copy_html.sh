@@ -9,3 +9,4 @@ scp -r -P 20000 team5@176.118.164.173:/home/team5/input_html /root/input_html
 ssh -p 20000 team5@176.118.164.173 rm -rf input_html
 echo "Files succesfully copied!"
 
+python3 mapper.py

@@ -1,5 +1,5 @@
 #!/bin/python3
-import sys
+import json
 from bs4 import BeautifulSoup
 from glob import glob
 
@@ -33,6 +33,10 @@ def decide_person(text):
     return None
 
 def main():
+    articles = open('articles.json', 'w')
+
+    articles_data = []
+
     filenames = glob('input_html/*')
     for filename in filenames:
         print('Processing ' + filename)
@@ -48,10 +52,17 @@ def main():
         soup = BeautifulSoup(page, features="html.parser")
         for script in soup(["script", "style"]):
             script.extract()
+        file.close()
+
         text = soup.get_text()
         person = decide_person(text)
-        print(person)
-        file.close()
+        if person is None:
+            continue
+
+        articles_data.append({'link': link, 'name': person['name'], 'surname': person['surname'], 'patronymic': person['patronymic'], 'text': text})
+    articles_json = {'articles': articles_data}
+    articles.write(json.dumps(articles_json))
+    articles.close()
 
 if __name__ == '__main__':
     main()
